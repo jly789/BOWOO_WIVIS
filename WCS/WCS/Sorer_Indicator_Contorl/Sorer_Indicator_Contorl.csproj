@@ -1,0 +1,412 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A7F2BF5C-382A-43C8-AEB0-806F09C9D69F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Sorer_Indicator_Contorl</RootNamespace>
+    <AssemblyName>Sorer_Indicator_Contorl</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>게시\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>D:\BOWOO\contolor\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>D:\BOWOO\contolor\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="bowoo.Framework.common">
+      <HintPath>..\bowoo.Framework.common\bin\Debug\bowoo.Framework.common.dll</HintPath>
+    </Reference>
+    <Reference Include="bowoo.Lib">
+      <HintPath>..\bowoo.Lib\bin\Debug\bowoo.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="lib.Common">
+      <HintPath>..\bowoo.Lib\bin\Debug\lib.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="lib.Common.Log">
+      <HintPath>..\bowoo.Lib\bin\Debug\lib.Common.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="lib.Common.Management">
+      <HintPath>..\Project.Common\lib.Common.Management\bin\Debug\lib.Common.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RadControlSpy">
+      <HintPath>..\Library\RadControlSpy.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Documents.SpreadsheetStreaming">
+      <HintPath>..\Library\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting">
+      <HintPath>..\Library\Telerik.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Adomd">
+      <HintPath>..\Library\Telerik.Reporting.Adomd.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Cache.Database">
+      <HintPath>..\Library\Telerik.Reporting.Cache.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Cache.StackExchangeRedis">
+      <HintPath>..\Library\Telerik.Reporting.Cache.StackExchangeRedis.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Interfaces">
+      <HintPath>..\Library\Telerik.Reporting.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.OpenXmlRendering">
+      <HintPath>..\Library\Telerik.Reporting.OpenXmlRendering.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Service">
+      <HintPath>..\Library\Telerik.Reporting.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Services.HttpClient">
+      <HintPath>..\Library\Telerik.Reporting.Services.HttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Services.ServiceStack">
+      <HintPath>..\Library\Telerik.Reporting.Services.ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Services.WebApi">
+      <HintPath>..\Library\Telerik.Reporting.Services.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.XpsRendering">
+      <HintPath>..\Library\Telerik.Reporting.XpsRendering.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportServer.Interfaces">
+      <HintPath>..\Library\Telerik.ReportServer.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.Html5.WebForms">
+      <HintPath>..\Library\Telerik.ReportViewer.Html5.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.Mvc">
+      <HintPath>..\Library\Telerik.ReportViewer.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.Silverlight">
+      <HintPath>..\Library\Telerik.ReportViewer.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.WebForms">
+      <HintPath>..\Library\Telerik.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.WinForms">
+      <HintPath>..\Library\Telerik.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.Wpf">
+      <HintPath>..\Library\Telerik.ReportViewer.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls">
+      <HintPath>..\Library\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Analytics">
+      <HintPath>..\Library\Telerik.WinControls.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView">
+      <HintPath>..\Library\Telerik.WinControls.ChartView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView">
+      <HintPath>..\Library\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PdfViewer">
+      <HintPath>..\Library\Telerik.WinControls.PdfViewer.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid">
+      <HintPath>..\Library\Telerik.WinControls.PivotGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart">
+      <HintPath>..\Library\Telerik.WinControls.RadChart.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDiagram">
+      <HintPath>..\Library\Telerik.WinControls.RadDiagram.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock">
+      <HintPath>..\Library\Telerik.WinControls.RadDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap">
+      <HintPath>..\Library\Telerik.WinControls.RadMap.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor">
+      <HintPath>..\Library\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RichTextBox">
+      <HintPath>..\Library\Telerik.WinControls.RichTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RichTextEditor">
+      <HintPath>..\Library\Telerik.WinControls.RichTextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler">
+      <HintPath>..\Library\Telerik.WinControls.Scheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.SpellChecker">
+      <HintPath>..\Library\Telerik.WinControls.SpellChecker.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Aqua">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Aqua.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Breeze">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Breeze.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Desert">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Desert.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack">
+      <HintPath>..\Library\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Black">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Office2007Black.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Silver">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Office2007Silver.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Black">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Office2010Black.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Blue">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Office2010Blue.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Silver">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Office2010Silver.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Dark">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Office2013Dark.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Light">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetro">
+      <HintPath>..\Library\Telerik.WinControls.Themes.TelerikMetro.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue">
+      <HintPath>..\Library\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroTouch">
+      <HintPath>..\Library\Telerik.WinControls.Themes.TelerikMetroTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Dark">
+      <HintPath>..\Library\Telerik.WinControls.Themes.VisualStudio2012Dark.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light">
+      <HintPath>..\Library\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows7">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Windows7.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows8">
+      <HintPath>..\Library\Telerik.WinControls.Themes.Windows8.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI">
+      <HintPath>..\Library\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design">
+      <HintPath>..\Library\Telerik.WinControls.UI.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core">
+      <HintPath>..\Library\Telerik.Windows.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed">
+      <HintPath>..\Library\Telerik.Windows.Documents.Fixed.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow">
+      <HintPath>..\Library\Telerik.Windows.Documents.Flow.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow.FormatProviders.Pdf">
+      <HintPath>..\Library\Telerik.Windows.Documents.Flow.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet">
+      <HintPath>..\Library\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml">
+      <HintPath>..\Library\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf">
+      <HintPath>..\Library\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip">
+      <HintPath>..\Library\Telerik.Windows.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikBarcode, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\TelerikBarcode\bin\Debug\TelerikBarcode.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon">
+      <HintPath>..\Library\TelerikCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikData">
+      <HintPath>..\Library\TelerikData.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikExport">
+      <HintPath>..\Library\TelerikExport.dll</HintPath>
+    </Reference>
+    <Reference Include="TripleDESCrypto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d0caad60e886d281, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\TripleDESCrypto.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Action.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Action.Designer.cs">
+      <DependentUpon>Action.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DPSClass\Display16_Class.cs" />
+    <Compile Include="DPSClass\CellBtn_Class1.cs" />
+    <Compile Include="DPSClass\CellBtn_Class.cs" />
+    <Compile Include="DAOs\OrderTable_UpdateDAO.cs" />
+    <Compile Include="DPSClass\BcrBtn_Class.cs" />
+    <Compile Include="DPSClass\Block_Class.cs" />
+    <Compile Include="DPSClass\IndicatorOrderClass.cs" />
+    <Compile Include="DPSClass\indicator_Class.cs" />
+    <Compile Include="DPSClass\DasOrdClass.cs" />
+    <Compile Include="DPSClass\Sector_Class.cs" />
+    <Compile Include="DPSClass\ZoneBtn_Class1.cs" />
+    <Compile Include="DPSClass\ZoneBtn_Class.cs" />
+    <Compile Include="DPSClass\Detail_Class.cs" />
+    <Compile Include="DTOs\WorkListDTO.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocalClass\Barcode.cs" />
+    <Compile Include="LocalClass\Matching.cs" />
+    <Compile Include="LocalClass\JbController.cs" />
+    <Compile Include="LocalClass\JsonClassq.cs" />
+    <Compile Include="LocalClass\Log.cs" />
+    <Compile Include="LocalClass\LogWrite.cs" />
+    <Compile Include="LocalClass\MssqlDBCon.cs" />
+    <Compile Include="LocalClass\MssqlDBConnect.cs" />
+    <Compile Include="LocalClass\Scaner_dataSelectDAO.cs" />
+    <Compile Include="LocalClass\Printer_Class.cs" />
+    <Compile Include="LocalClass\Printer_interpace.cs" />
+    <Compile Include="LocalClass\WorkDataDTO.cs" />
+    <Compile Include="DPSClass\Ord_Class.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="LocalClass\ProgressBarCellElement.cs" />
+    <Compile Include="LocalClass\ProgressBarColumn.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="StatusBoardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatusBoardForm.Designer.cs">
+      <DependentUpon>StatusBoardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatusBoard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatusBoard.Designer.cs">
+      <DependentUpon>StatusBoard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DPSClass\Zone_Class.cs" />
+    <EmbeddedResource Include="Action.resx">
+      <DependentUpon>Action.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusBoardForm.resx">
+      <DependentUpon>StatusBoardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusBoard.resx">
+      <DependentUpon>StatusBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\popupbackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\popupbackground2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\popupHeaaderBar2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\REC_IM.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

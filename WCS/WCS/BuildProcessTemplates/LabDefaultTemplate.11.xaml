@@ -1,0 +1,203 @@
+﻿<Activity mc:Ignorable="sap sads" x:Class="TfsBuild.Process" this:Process.LabWorkflowParameters="[New Microsoft.TeamFoundation.Lab.Workflow.Activities.LabWorkflowDetails()]" this:Process.Verbosity="[Microsoft.TeamFoundation.Build.Workflow.BuildVerbosity.Normal]" this:Process.BuildNumberFormat="[&quot;$(BuildDefinitionName)_$(Date:yyyyMMdd)$(Rev:.r)&quot;]" this:Process.SupportedReasons="Manual, BatchedCI, Schedule, ScheduleForced, IndividualCI" this:Process.TimeoutForDeploymentScriptInMinutes="30" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mt="clr-namespace:Microsoft.TeamFoundation;assembly=Microsoft.TeamFoundation.Common" xmlns:mtbc="clr-namespace:Microsoft.TeamFoundation.Build.Client;assembly=Microsoft.TeamFoundation.Build.Client" xmlns:mtbc1="clr-namespace:Microsoft.TeamFoundation.Build.Common;assembly=Microsoft.TeamFoundation.Build.Common" xmlns:mtbp="clr-namespace:Microsoft.TeamFoundation.Build.ProcessComponents;assembly=Microsoft.TeamFoundation.Build.ProcessComponents" xmlns:mtbw="clr-namespace:Microsoft.TeamFoundation.Build.Workflow;assembly=Microsoft.TeamFoundation.Build.Workflow" xmlns:mtbwa="clr-namespace:Microsoft.TeamFoundation.Build.Workflow.Activities;assembly=Microsoft.TeamFoundation.Build.Workflow" xmlns:mtbws="clr-namespace:Microsoft.TeamFoundation.Build.Workflow.Services;assembly=Microsoft.TeamFoundation.Build.Workflow" xmlns:mtlc="clr-namespace:Microsoft.TeamFoundation.Lab.Client;assembly=Microsoft.TeamFoundation.Lab.Client" xmlns:mtltc="clr-namespace:Microsoft.TeamFoundation.Lab.TestIntegration.Client;assembly=Microsoft.TeamFoundation.Lab.TestIntegration.Client" xmlns:mtlwa="clr-namespace:Microsoft.TeamFoundation.Lab.Workflow.Activities;assembly=Microsoft.TeamFoundation.Lab.Workflow.Activities" xmlns:mtlwc="clr-namespace:Microsoft.TeamFoundation.Lab.WorkflowIntegration.Client;assembly=Microsoft.TeamFoundation.Lab.WorkflowIntegration.Client" xmlns:mttbb="clr-namespace:Microsoft.TeamFoundation.TestImpact.BuildIntegration.BuildActivities;assembly=Microsoft.TeamFoundation.TestImpact.BuildIntegration" xmlns:mttc="clr-namespace:Microsoft.TeamFoundation.TestManagement.Client;assembly=Microsoft.TeamFoundation.TestManagement.Client" xmlns:mtvc="clr-namespace:Microsoft.TeamFoundation.VersionControl.Client;assembly=Microsoft.TeamFoundation.VersionControl.Client" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:s1="clr-namespace:System;assembly=System" xmlns:s2="clr-namespace:System;assembly=System.Core" xmlns:s3="clr-namespace:System;assembly=System.ServiceModel" xmlns:s4="clr-namespace:System;assembly=System.ComponentModel.Composition" xmlns:sa="clr-namespace:System.Activities;assembly=System.Activities" xmlns:sad="clr-namespace:System.Activities.Debugger;assembly=System.Activities" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sl="clr-namespace:System.Linq;assembly=System.Core" xmlns:this="clr-namespace:TfsBuild" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="BuildProcessVersion" Type="x:String"/>
+    <x:Property Name="Metadata" Type="mtbw:ProcessParameterMetadataCollection"/>
+    <x:Property Name="LabWorkflowParameters" Type="InArgument(mtlwa:LabWorkflowDetails)"/>
+    <x:Property Name="Verbosity" Type="InArgument(mtbw:BuildVerbosity)"/>
+    <x:Property Name="BuildNumberFormat" Type="InArgument(x:String)"/>
+    <x:Property Name="SupportedReasons" Type="mtbc:BuildReason"/>
+    <x:Property Name="TimeoutForDeploymentScriptInMinutes" Type="InArgument(x:Int32)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute/>
+      </x:Property.Attributes>
+    </x:Property>
+  </x:Members>
+  <this:Process.BuildProcessVersion>11.0</this:Process.BuildProcessVersion>
+  <this:Process.Metadata>
+    <mtbw:ProcessParameterMetadataCollection>
+      <mtbw:ProcessParameterMetadata BrowsableWhen="Always" Category="Misc" DisplayName="각 배포 스크립트의 제한 시간(분)" ParameterName="TimeoutForDeploymentScriptInMinutes"/>
+    </mtbw:ProcessParameterMetadataCollection>
+  </this:Process.Metadata>
+  <sap:VirtualizedContainerService.HintSize>920,3702</sap:VirtualizedContainerService.HintSize>
+  <mva:VisualBasic.Settings>Assembly references and imported namespaces serialized as XML namespaces</mva:VisualBasic.Settings>
+  <Sequence DisplayName="응용 프로그램 배포 워크플로" sap:VirtualizedContainerService.HintSize="880,3662" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="mtbc:IBuildDetail" Name="BuildDetail"/>
+      <Variable x:TypeArguments="x:String" Name="LabEnvironmentUri"/>
+      <Variable x:TypeArguments="x:String" Name="BuildLocation"/>
+      <Variable x:TypeArguments="x:Int64" Name="SnapshotId"/>
+      <Variable x:TypeArguments="x:Int32" Name="QueueBuildId"/>
+      <Variable x:TypeArguments="mtbc:BuildStatus" Default="[Microsoft.TeamFoundation.Build.Client.BuildStatus.Succeeded]" Name="BuildStatus"/>
+      <Variable x:TypeArguments="mtbc:IBuildDetail" Name="ChildBuildDetail"/>
+      <Variable x:TypeArguments="mtbc:IBuildDetail" Name="SelectedBuildDetail"/>
+      <Variable x:TypeArguments="x:String" Name="BuildNumber"/>
+      <Variable x:TypeArguments="mtlc:LabEnvironment" Name="LabEnvironment"/>
+    </Sequence.Variables>
+    <mtbwa:UpdateBuildNumber BuildNumberFormat="[BuildNumberFormat]" DisplayName="업데이트 빌드 번호" sap:VirtualizedContainerService.HintSize="858,22"/>
+    <mtbwa:GetBuildDetail DisplayName="빌드 정보 가져오기" sap:VirtualizedContainerService.HintSize="858,22" Result="[BuildDetail]"/>
+    <If Condition="[LabWorkflowParameters.BuildDetails.IsTeamSystemBuild = True AndAlso LabWorkflowParameters.BuildDetails.QueueNewBuild = True]" DisplayName="빌드가 필요한 경우" sap:VirtualizedContainerService.HintSize="858,416">
+      <If.Then>
+        <Sequence DisplayName="빌드 수행" sap:VirtualizedContainerService.HintSize="301,308">
+          <mtlwa:RunWorkflow BuildController="{x:Null}" LabEnvironmentUri="{x:Null}" BuildDefinition="[LabWorkflowParameters.BuildDetails.BuildDefinitionName]" DisplayName="빌드 워크플로 시작" sap:VirtualizedContainerService.HintSize="242,22" ProjectName="[BuildDetail.TeamProject]" Result="[QueueBuildId]"/>
+          <mtlwa:WaitForWorkflow AllowPartiallySucceededBuild="True" BuildDetails="[ChildBuildDetail]" DisplayName="빌드 완료 대기 중" sap:VirtualizedContainerService.HintSize="242,22" LabWorkflowType="[Microsoft.TeamFoundation.Lab.Workflow.Activities.WorkflowType.Build]" MaxConsecutiveFailuresToIgnoreDuringWaitForCompletion="[3]" MaxWaitTime="[TimeSpan.Zero]" QueueBuildId="[QueueBuildId]" RefreshInterval="[System.TimeSpan.FromMinutes(1)]" Result="[BuildStatus]" ThrowOnError="True"/>
+          <Assign DisplayName="빌드 위치 설정" sap:VirtualizedContainerService.HintSize="242,60">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Uri">[LabWorkflowParameters.BuildDetails.BuildUri]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Uri">[ChildBuildDetail.Uri]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+    </If>
+    <mtlwa:WriteDeploymentInformation Url="{x:Null}" DeploymentInformationType="[Microsoft.TeamFoundation.Build.Common.DeploymentInformationTypes.Deploy]" DisplayName="배포 요약 업데이트" sap:VirtualizedContainerService.HintSize="858,22" Message="[String.Format(&quot;랩 환경: {0}&quot;, LabWorkflowParameters.EnvironmentDetails.LabEnvironmentName)]"/>
+    <mtlwa:GetBuildLocationAndBuildNumber BuildDetails="[LabWorkflowParameters.BuildDetails]" BuildNumber="[BuildNumber]" DisplayName="빌드 위치 및 빌드 번호 가져오기" sap:VirtualizedContainerService.HintSize="858,22" Result="[BuildLocation]" SelectedBuild="[SelectedBuildDetail]"/>
+    <If Condition="[LabWorkflowParameters.BuildDetails.IsTeamSystemBuild = True]" DisplayName="필요한 빌드 위치 계산" sap:VirtualizedContainerService.HintSize="858,208">
+      <If.Then>
+        <Assign DisplayName="빌드 경로 계산" sap:VirtualizedContainerService.HintSize="291,100">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:String">[BuildLocation]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:String">[If(LabWorkflowParameters.BuildDetails.Configuration Is Nothing, BuildLocation, If(LabWorkflowParameters.BuildDetails.Configuration.IsEmpty Or (SelectedBuildDetail.Information.GetNodesByType(Microsoft.TeamFoundation.Build.Common.InformationTypes.ConfigurationSummary, True)).Count = 1, BuildLocation, If(LabWorkflowParameters.BuildDetails.Configuration.IsPlatformEmptyOrAnyCpu, BuildLocation + "\" + LabWorkflowParameters.BuildDetails.Configuration.Configuration, BuildLocation + "\" + LabWorkflowParameters.BuildDetails.Configuration.Platform + "\" + LabWorkflowParameters.BuildDetails.Configuration.Configuration)))]</InArgument>
+          </Assign.Value>
+        </Assign>
+      </If.Then>
+    </If>
+    <If Condition="[LabWorkflowParameters.EnvironmentDetails.Disposition = Microsoft.TeamFoundation.Lab.Client.LabEnvironmentDisposition.Stored]" DisplayName="사용자가 저장된 환경을 선택한 경우" sap:VirtualizedContainerService.HintSize="858,208">
+      <If.Then>
+        <Throw DisplayName="오류 표시" Exception="[New System.Exception(&quot;라이브러리에 저장된 환경을 선택했습니다. 팀 프로젝트 호스트 그룹에 배포된 환경을 선택하십시오.&quot;)]" sap:VirtualizedContainerService.HintSize="269,100"/>
+      </If.Then>
+    </If>
+    <Assign DisplayName="랩 환경 URI 가져오기" sap:VirtualizedContainerService.HintSize="858,22">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[LabEnvironmentUri]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[LabWorkflowParameters.EnvironmentDetails.LabEnvironmentUri.ToString()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <mtlwa:GetLabEnvironment DisplayName="랩 환경 가져오기" LabEnvironmentUri="[LabEnvironmentUri]" Result="[LabEnvironment]"/>
+    <If Condition="[LabWorkflowParameters.EnvironmentDetails.RevertToSnapshot = True]" DisplayName=" 스냅숏을 복원하는 경우" sap:VirtualizedContainerService.HintSize="858,316">
+      <If.Then>
+        <Sequence DisplayName="스냅숏 복원" sap:VirtualizedContainerService.HintSize="231,208">
+          <mtlwa:GetLabEnvironmentSnapshotId DisplayName="스냅숏 정보 가져오기" sap:VirtualizedContainerService.HintSize="200,22" LabEnvironmentUri="[LabEnvironmentUri]" Result="[SnapshotId]" SnapshotName="[LabWorkflowParameters.EnvironmentDetails.SnapshotName]"/>
+          <mtlwa:RestoreLabEnvironment DisplayName="랩 환경을 스냅숏으로 복원" sap:VirtualizedContainerService.HintSize="200,22" LabEnvironmentUri="[LabEnvironmentUri]" SnapshotId="[SnapshotId]"/>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="정리 스냅숏 없음">
+          <If Condition="[Not String.Equals(Microsoft.TeamFoundation.Lab.Client.LabEnvironment.UnmanagedProvider, labEnvironment.LabProvider)]" DisplayName="가상 환경인 경우">
+            <If.Then>
+              <mtlwa:WriteDeploymentInformation Url="{x:Null}" DeploymentInformationType="[Microsoft.TeamFoundation.Build.Common.DeploymentInformationTypes.Deploy]" DisplayName="정리 스냅숏이 지정되지 않음 " sap:VirtualizedContainerService.HintSize="208,208" Message="빌드 정의에 클린 스냅숏이 지정되어 있지 않습니다. 랩 워크플로를 실행할 때는 클린 스냅숏을 사용하는 것이 좋습니다."/>
+            </If.Then>
+          </If>
+        </Sequence>
+      </If.Else>
+    </If>
+    <If Condition="[LabWorkflowParameters.DeploymentDetails.DeploymentNeeded = True or LabWorkflowParameters.TestParameters.RunTest = True]" DisplayName="배포 또는 테스트가 필요한 경우" sap:VirtualizedContainerService.HintSize="858,1214">
+      <If.Then>
+        <mtlwa:WaitForEnvironmentReady DisplayName="환경 준비 대기 중" sap:VirtualizedContainerService.HintSize="711,22" LabEnvironmentUri="[LabEnvironmentUri]" MaxWaitTime="[System.TimeSpan.FromMinutes(10)]"/>
+      </If.Then>
+    </If>
+    <If Condition="[LabWorkflowParameters.DeploymentDetails.DeploymentNeeded = True]" DisplayName="배포가 필요한 경우" sap:VirtualizedContainerService.HintSize="858,1214">
+      <If.Then>
+        <Sequence DisplayName="배포 수행" sap:VirtualizedContainerService.HintSize="733,1106">
+          <mtlwa:ReserveEnvironmentForDeployment DisplayName="배포용 환경 예약" sap:VirtualizedContainerService.HintSize="711,22" LabEnvironmentUri="[LabEnvironmentUri]"/>
+          <TryCatch DisplayName="환경에 빌드 배포">
+            <TryCatch.Try>
+              <Sequence DisplayName="빌드 배포 중">
+                <ForEach x:TypeArguments="x:String" DisplayName="배포 스크립트 실행" sap:VirtualizedContainerService.HintSize="711,254" Values="[LabWorkflowParameters.DeploymentDetails.Scripts]">
+                  <ActivityAction x:TypeArguments="x:String">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="x:String" Name="deploymentConfigurationPair"/>
+                    </ActivityAction.Argument>
+                      <mtlwa:RunDeploymentTask BuildLocation="[BuildLocation]" DeploymentScriptDetails="[deploymentConfigurationPair]" DisplayName="배포 작업 실행" sap:VirtualizedContainerService.HintSize="200,22" LabEnvironmentUri="[LabEnvironmentUri]" MaxWaitTime="[TimeSpan.FromMinutes(TimeoutForDeploymentScriptInMinutes)]" ThrowOnError="True" UseRoleForDeployment="[LabWorkflowParameters.DeploymentDetails.UseRoleForDeployment]"/>
+                  </ActivityAction>
+                </ForEach>
+              </Sequence>
+            </TryCatch.Try>
+            <TryCatch.Finally>
+              <mtlwa:ReleaseEnvironmentFromDeployment DisplayName="배포에서 환경 릴리스" sap:VirtualizedContainerService.HintSize="711,22" LabEnvironmentUri="[LabEnvironmentUri]"/>
+            </TryCatch.Finally>
+          </TryCatch>
+          <mtlwa:WriteDeploymentInformation DeploymentInformationType="[Microsoft.TeamFoundation.Build.Common.DeploymentInformationTypes.Deploy]" DisplayName="응용 프로그램 배포 성공" sap:VirtualizedContainerService.HintSize="711,22" Message="[String.Format(&quot;응용 프로그램이 다음 빌드 위치에서 배포되었습니다.&quot;)]" Url="[BuildLocation]"/>
+          <If Condition="[LabWorkflowParameters.DeploymentDetails.TakePostDeploymentSnapshot = True]" DisplayName="배포 후 스냅숏" sap:VirtualizedContainerService.HintSize="711,626">
+            <If.Then>
+              <Sequence DisplayName="배포 후 스냅숏 만들기" sap:VirtualizedContainerService.HintSize="486,518">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:Int64" Name="PostDeploymentSnapshotChainId"/>
+                  <Variable x:TypeArguments="x:String" Default="[String.Format(&quot;{0}_{1}&quot;, BuildDetail.BuildDefinition.Name, BuildDetail.BuildNumber)]" Name="PostDeploymentSnapshotName"/>
+                </Sequence.Variables>
+                <If Condition="[String.IsNullOrEmpty(LabWorkflowParameters.DeploymentDetails.PostDeploymentSnapshotName) = False]" DisplayName="스냅숏 이름 확인" sap:VirtualizedContainerService.HintSize="464,208">
+                  <If.Then>
+                    <Assign sap:VirtualizedContainerService.HintSize="291,100">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[PostDeploymentSnapshotName]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[If(LabWorkflowParameters.BuildDetails.IsTeamSystemBuild = True,String.Format("{0}_{1}_{2}", LabWorkflowParameters.DeploymentDetails.PostDeploymentSnapshotName, BuildNumber,BuildDetail.BuildNumber),String.Format("{0}_{1}", LabWorkflowParameters.DeploymentDetails.PostDeploymentSnapshotName, BuildDetail.BuildNumber))]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </If.Then>
+                </If>
+                <mtlwa:SnapshotLabEnvironment DisplayName="배포 후 스냅숏을 만드는 중" sap:VirtualizedContainerService.HintSize="464,22" LabEnvironmentUri="[LabEnvironmentUri]" SnapshotChainId="[PostDeploymentSnapshotChainId]" SnapshotName="[PostDeploymentSnapshotName]"/>
+                <mtlwa:WriteDeploymentInformation Url="{x:Null}" DeploymentInformationType="[Microsoft.TeamFoundation.Build.Common.DeploymentInformationTypes.Deploy]" DisplayName="스냅숏 만들기 성공" sap:VirtualizedContainerService.HintSize="464,22" Message="[String.Format(&quot;배포가 완료된 후에 다음 스냅숏이 만들어졌습니다. {0}&quot;, PostDeploymentSnapshotName)]"/>
+                <mtlwa:WriteDeploymentInformation DeploymentInformationType="[Microsoft.TeamFoundation.Build.Common.DeploymentInformationTypes.ConnectToSnapshot]" DisplayName="스냅숏에 연결 링크를 추가함" sap:VirtualizedContainerService.HintSize="464,22" Message="[PostDeploymentSnapshotName]" Url="[PostDeploymentSnapshotChainId.ToString()]"/>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="배포 후 스냅숏 없음">
+                <If Condition="[Not String.Equals(Microsoft.TeamFoundation.Lab.Client.LabEnvironment.UnmanagedProvider, labEnvironment.LabProvider)]" DisplayName="가상 환경인 경우">
+                  <If.Then>
+                    <mtlwa:WriteDeploymentInformation Url="{x:Null}" DeploymentInformationType="[Microsoft.TeamFoundation.Build.Common.DeploymentInformationTypes.Deploy]" DisplayName="배포 후 스냅숏이 지정되지 않음" sap:VirtualizedContainerService.HintSize="200,518" Message="빌드 정의에 배포 후 스냅숏이 지정되어 있지 않습니다. 랩 워크플로를 실행할 때는 배포 후 스냅숏을 만드는 것이 좋습니다."/>
+                  </If.Then>
+                </If>
+              </Sequence>
+            </If.Else>
+          </If>
+        </Sequence>
+      </If.Then>
+    </If>
+    <If Condition="[LabWorkflowParameters.TestParameters.RunTest = True]" DisplayName="환경에서 테스트 실행" sap:VirtualizedContainerService.HintSize="858,604">
+      <If.Then>
+        <Sequence DisplayName="테스트 실행" sap:VirtualizedContainerService.HintSize="656,498">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="mtltc:TestingCapabilityInformation" Name="TestCapabilityInfo"/>
+            <Variable x:TypeArguments="x:String" Name="variable1"/>
+            <Variable x:TypeArguments="mtlwa:TestRunStatistics" Default="[New Microsoft.TeamFoundation.Lab.Workflow.Activities.TestRunStatistics()]" Name="TestResults"/>
+          </Sequence.Variables>
+          <mtlwa:ExecuteRemoteTestRun2 MaxWaitTime="{x:Null}" TestEnvironment="{x:Null}" BuildNumber="[BuildNumber]" BuildDefinitionName="[LabWorkflowParameters.BuildDetails.BuildDefinitionName]" DisplayName="테스트를 실행하는 중" sap:VirtualizedContainerService.HintSize="634,22" LabEnvironmentUri="[LabEnvironmentUri]" MaxConsecutiveFailuresToIgnoreDuringWaitForCompletion="[3]" RefreshInterval="[System.TimeSpan.FromMinutes(1)]" Result="[TestResults]" TestDirectory="[BuildLocation]" TestParameters="[LabWorkflowParameters.TestParameters]" Title="[String.Format(&quot;{0}&quot;, BuildDetail.BuildNumber)]"/>
+          <If Condition="[TestResults.PassedTests &lt;&gt; TestResults.TotalTests Or TestResults.TestRunStatus &lt;&gt; TestManagement.Client.TestRunState.Completed]" DisplayName="모든 테스트에 통과하지 못한 경우" sap:VirtualizedContainerService.HintSize="634,312">
+            <If.Then>
+              <If Condition="[(LabWorkflowParameters.BuildDetails.IsTeamSystemBuild = True AndAlso LabWorkflowParameters.BuildDetails.QueueNewBuild = True) Or (LabWorkflowParameters.DeploymentDetails.DeploymentNeeded = True)]" DisplayName="빌드 상태 설정" sap:VirtualizedContainerService.HintSize="509,206">
+                <If.Then>
+                  <Assign DisplayName="부분적으로 성공" sap:VirtualizedContainerService.HintSize="242,100">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="mtbc:BuildStatus">[BuildStatus]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="mtbc:BuildStatus">[Microsoft.TeamFoundation.Build.Client.BuildStatus.PartiallySucceeded]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </If.Then>
+                <If.Else>
+                  <Assign DisplayName="실패" sap:VirtualizedContainerService.HintSize="242,100">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="mtbc:BuildStatus">[BuildStatus]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="mtbc:BuildStatus">[Microsoft.TeamFoundation.Build.Client.BuildStatus.Failed]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </If.Else>
+              </If>
+            </If.Then>
+          </If>
+        </Sequence>
+      </If.Then>
+    </If>
+    <mtbwa:SetBuildProperties DisplayName="빌드 상태 설정" sap:VirtualizedContainerService.HintSize="858,22" PropertiesToSet="Status" Status="[BuildStatus]"/>
+  </Sequence>
+</Activity>

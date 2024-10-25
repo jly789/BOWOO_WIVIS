@@ -1,0 +1,37 @@
+CREATE TABLE IF_RE_RCV_DATA(
+	BIZ_DAY varchar(10) NOT NULL,
+	CENTER_CD varchar(4) NOT NULL,
+	BATCH_NO varchar(11) NOT NULL,
+	BRAND_CD varchar(4) NOT NULL,
+	POS_NUM int NOT NULL,
+	ITEM_CD varchar(8) NULL,
+	ITEM_COLOR varchar(2) NULL,
+	ITEM_SIZE varchar(3) NULL,
+	ITEM_STYLE varchar(20) NULL,
+	ITEM_NM varchar(200) NULL,
+	ITEM_BAR varchar(15) NULL,
+	ORD_QTY int NULL,
+	CHUTE_NO int NOT NULL,
+	STATUS int NOT NULL
+)
+
+INSERT INTO dbo.IF_RE_RCV_DATA(BIZ_DAY, CENTER_CD, BATCH_NO, BRAND_CD, POS_NUM, ITEM_CD, ITEM_COLOR, ITEM_SIZE, ITEM_STYLE, ITEM_NM, ITEM_BAR, ORD_QTY,
+CHUTE_NO, STATUS)
+VALUES (20241024, 'B00', 001, 'K', 1, '', '', '', '', '', 'SDKJSDF45789', 0, 50, 0)
+
+INSERT INTO dbo.IF_RE_RCV_DATA(BIZ_DAY, CENTER_CD, BATCH_NO, BRAND_CD, POS_NUM, ITEM_CD, ITEM_COLOR, ITEM_SIZE, ITEM_STYLE, ITEM_NM, ITEM_BAR, ORD_QTY,
+CHUTE_NO, STATUS)
+VALUES (20241024, 'B00', 001, 'K', 1, '', '', '', '', '', 'POWEJFIWE789', 0, 30, 0), 
+(20241024, 'B00', 001, 'K', 1, '', '', '', '', '', 'WEJKFJEF1223', 0, 35, 0),
+(20241024, 'B00', 001, 'K', 1, '', '', '', '', '', 'QMVDLDL8526', 0, 32, 0),
+(20241024, 'B00', 001, 'K', 1, '', '', '', '', '', 'BJMLFDLF7412', 0, 36, 0),
+(20241024, 'B00', 001, 'K', 1, '', '', '', '', '', 'WIJLDKDF456', 0, 60, 0),
+(20241023, 'B00', 001, 'K', 1, '', '', '', '', '', 'EIJFEOFD47568', 0, 105, 0),
+(20241023, 'B00', 001, 'K', 1, '', '', '', '', '', 'ASDKO456FGF', 0, 80, 0),
+(20241023, 'B00', 001, 'K', 1, '', '', '', '', '', 'GLG89SDFD45', 0, 95, 0),
+(20241022, 'B00', 001, 'K', 1, '', '', '', '', '', 'WEROKDFK916', 0, 100, 0),
+(20241022, 'B00', 001, 'K', 1, '', '', '', '', '', 'PIFJ894SDDF45', 0, 212, 0)
+
+update IF_RE_RCV_DATA
+SET CENTER_CD = 'B000'
+where CENTER_CD = 'B00'

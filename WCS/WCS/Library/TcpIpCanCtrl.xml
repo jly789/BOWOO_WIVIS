@@ -1,0 +1,31 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+TcpIpCanCtrl
+</name>
+</assembly>
+<members>
+<member name="M:TcpIpCanCtrl.modBuf.String2Array(System.String)">
+	<summary>
+ 문자열을 받아 배열로 변환함
+ </summary>
+</member><member name="M:TcpIpCanCtrl.modBuf.Array2String(System.Object)">
+	<summary>
+ 배열을 받아 문자열로 변경
+ </summary>
+</member><member name="M:TcpIpCanCtrl.modBuf.Wait(System.Int16)">
+	<summary>
+ 타이머를 일시 정지한다
+ </summary>
+</member><member name="M:TcpIpCanCtrl.modBuf.FormatN(System.Object,System.String)">
+	<summary>
+ Object 형식을 String으로 변경
+ </summary>
+</member><member name="M:TcpIpCanCtrl.modBuf.toDec(System.String)">
+	<summary>
+ String 형식을 Shot 방식으로 변경
+ </summary>
+</member>
+</members>
+</doc>
